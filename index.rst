@@ -1,4 +1,6 @@
-## Optimizing Mutation Testing by Discovering Dynamic Mutant Subsumption Relations
+===============================================================================
+Optimizing Mutation Testing by Discovering Dynamic Mutant Subsumption Relations
+===============================================================================
 
 Abstract—Mutation analysis is a popular but costly approach
 to assess the quality of test suites. One recent promising direction
@@ -57,7 +59,7 @@ In the append method, we have the expression ``len + 8`` (Line 4).
 This expression is used to define the length of an
 array in a local variable. The minimal mutation set defined for
 this target would be: ``ODL lexp`` (``len + 8 7→ len``), ``ODL rexp``
-(``len + 8 7→ 8``), and ``AORB %`` (``len + 8 7→ len % 8 ``).
+(``len + 8 7→ 8``), and ``AORB %`` (``len + 8 7→ len % 8``).
 However, the minimal test set did not kill the
 ``AORB *`` (``len + 8 7→ len * 8``) mutation.
 Initially, we thought that the mutant resulting from the
@@ -94,9 +96,9 @@ At Line 11 of the xor method there is the following statement:
 disjunction logic operation among all elements of the array.
 The minimal mutation set for this target is made up of
 just one mutation: ``ASRS |=`` (``result ^= element 7→
-result |= element```). However, the minimal test set did
-not kill the ```ASRS &=``` (``result ^= element 7→ result
-&= element```) mutation.
+result |= element``). However, the minimal test set did
+not kill the ``ASRS &=`` (``result ^= element 7→ result
+&= element``) mutation.
 
 `Lindström and Márki`_ suggest that the subsumption
 relations cannot hold when the mutated statements are re-executed
@@ -109,24 +111,29 @@ the mutation within a repeating context.
 
 .. Lindström and Márki_: https://onlinelibrary.wiley.com/doi/full/10.1002/stvr.1667
 
-```java
-public static boolean xor(final boolean... array) {
-    if (array == null) {
-        throw new IllegalArgumentException("The Array must not be null");
-    }
-    if (array.length == 0) {
-        throw new IllegalArgumentException("Array is empty");
+.. code-block:: java
+    public static boolean xor(final boolean... array) {
+        if (array == null) {
+            throw new IllegalArgumentException("The Array must not be null");
+        }
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Array is empty");
+        }
+
+        boolean result = false;
+        for (final boolean element : array) {
+            result ^= element;
+        }
+
+        return result;
     }
 
-    boolean result = false;
-    for (final boolean element : array) {
-        result ^= element;
-    }
 
-    return result;
-}
+RQ 3: *What are the time savings of eliminating likely-subsumed mutants?*
+
+```ruby
+def foo(x)
+  return 3
+end
 ```
-
-
-RQ 3: _What are the time savings of eliminating likely-subsumed mutants?_
 
